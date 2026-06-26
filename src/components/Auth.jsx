@@ -141,42 +141,14 @@ export function Auth({ onLoginSuccess }) {
           </div>
 
           <div className="relative z-10 max-w-lg mt-auto mb-auto">
-            <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] mb-8 font-serif tracking-tight">
-              Craft Professional Reports with AI.
+            <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] mb-8 font-serif tracking-tight">
+              Welcome.
             </h1>
-            <p className="text-lg text-neutral-400 mb-12 leading-relaxed font-light">
-              Join leading professionals using EduAi Reports to generate, style, and export stunning premium PDF reports in seconds.
+            <p className="text-xl text-neutral-300 leading-relaxed font-light">
+              Experience the new standard in professional document generation. 
+              <br/><br/>
+              Log in to craft, design, and export stunning A4 reports seamlessly.
             </p>
-            
-            <div className="space-y-8">
-              <div className="flex items-start gap-5">
-                <div className="text-white mt-1">
-                  <Sparkles className="w-6 h-6 stroke-[1.5]" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-lg text-white">Powered by Gemini AI</h3>
-                  <p className="text-neutral-500 text-sm mt-1.5 font-light leading-relaxed">Generate full reports from a single prompt, rewrite sections, and fix grammar instantly.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-5">
-                <div className="text-white mt-1">
-                  <LayoutTemplate className="w-6 h-6 stroke-[1.5]" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-lg text-white">Premium Templates</h3>
-                  <p className="text-neutral-500 text-sm mt-1.5 font-light leading-relaxed">Choose from modern, minimalist, and professional layouts tailored for any industry.</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-5">
-                <div className="text-white mt-1">
-                  <Download className="w-6 h-6 stroke-[1.5]" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-lg text-white">Flawless PDF Export</h3>
-                  <p className="text-neutral-500 text-sm mt-1.5 font-light leading-relaxed">Export your work to crisp, pixel-perfect A4 PDFs with just one click.</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="relative z-10 text-xs text-neutral-600 font-medium tracking-wide uppercase">
