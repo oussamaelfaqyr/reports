@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports by EduAI — Premium AI Report Builder</title>
+    <meta name="description" content="Create stunning professional reports with AI assistance. Beautiful templates, live preview, Gemini AI writing tools, and one-click PDF export.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+    /* Floating Toolbar — inline to guarantee loading */
+    .floating-toolbar {
+        position: fixed !important;
+        z-index: 99999 !important;
+        background: rgba(20, 20, 30, 0.93);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.12);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        padding: 5px 8px;
+        display: flex !important;
+        align-items: center;
+        gap: 3px;
+        transition: opacity 0.15s ease, transform 0.15s ease;
+        white-space: nowrap;
+    }
+    .floating-toolbar.ft-hidden {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateY(4px) scale(0.97);
+    }
+    .floating-toolbar:not(.ft-hidden) {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    .ft-group {
+        display: flex;
+        gap: 3px;
+        align-items: center;
+    }
+    .ft-divider {
+        width: 1px;
+        height: 18px;
+        background: rgba(255,255,255,0.15);
+        margin: 0 4px;
+    }
+    .ft-btn {
+        width: 28px;
+        height: 28px;
+        border: none;
+        background: transparent;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.12s, color 0.12s;
+        font-family: inherit;
+        padding: 0;
+    }
+    .ft-btn:hover {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+    }
+    .ft-btn[data-fmt="bold"] { font-weight: 800; }
+    .ft-btn[data-fmt="italic"] { font-style: italic; }
+    .ft-btn[data-fmt="underline"] { text-decoration: underline; }
+    .ft-btn[data-fmt="strikethrough"] { text-decoration: line-through; }
+    .ft-btn[data-fmt="highlight"] { background: rgba(254,243,0,0.2); color: #fef900; }
+    .ft-color {
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: 2px solid rgba(255,255,255,0.35);
+        border-radius: 50%;
+        cursor: pointer;
+        background: transparent;
+        overflow: hidden;
+    }
+    .ft-color::-webkit-color-swatch-wrapper { padding: 0; }
+    .ft-color::-webkit-color-swatch { border: none; border-radius: 50%; }
+    </style>
+</head>
+<body class="h-screen overflow-hidden bg-white">
+<div id="app" class="h-full flex flex-col">
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- AUTH VIEW                                                                 -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="view-auth" class="flex-1 w-full h-full hidden">
+    <div class="flex w-full h-full">
+        <!-- Left Side: Welcome / Info -->
+        <div class="hidden lg:flex w-1/2 bg-slate-900 text-white flex-col justify-between p-12 relative overflow-hidden">
+            <!-- Decorative background elements -->
+            <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none"></div>
+            <div class="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-emerald-600/10 blur-[100px] pointer-events-none"></div>
+            
+            <div class="relative z-10 flex items-center gap-3">
+                <div class="bg-white p-1 rounded-xl shadow-sm">
+                    <img src="img/Simple_Reports.png" alt="Reports" class="w-8 h-8 object-contain">
+                </div>
+                <span class="text-xl font-bold tracking-tight">Reports <span class="font-normal opacity-70 text-sm">by EduAI</span></span>
+            </div>
+
+            <div class="relative z-10 max-w-lg mt-auto mb-auto">
+                <h1 class="text-5xl font-bold leading-[1.1] mb-6 font-serif">Craft Professional Reports with AI.</h1>
+                <p class="text-lg text-slate-300 mb-10 leading-relaxed">Join thousands of professionals using Reports by EduAI to generate, style, and export stunning PDF reports in seconds.</p>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-indigo-500/20 p-2.5 rounded-lg text-indigo-300 mt-1">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-white">Powered by Gemini AI</h3>
+                            <p class="text-slate-400 text-sm mt-1">Generate full reports from a single prompt, rewrite sections, and fix grammar instantly.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-emerald-500/20 p-2.5 rounded-lg text-emerald-300 mt-1">
+                            <i data-lucide="layout-template" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-white">Premium Templates</h3>
+                            <p class="text-slate-400 text-sm mt-1">Choose from modern, clean, and professional layouts tailored for any industry.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-sky-500/20 p-2.5 rounded-lg text-sky-300 mt-1">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-white">Flawless PDF Export</h3>
+                            <p class="text-slate-400 text-sm mt-1">Export your work to crisp, pixel-perfect A4 PDFs with just one click.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-10 text-sm text-slate-500 font-medium">
+                © 2026 EduAI. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Right Side: Auth Forms -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 p-6 lg:p-12 overflow-y-auto">
+            <div class="w-full max-w-[420px] bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/50 p-8 sm:p-10 relative">
+                
+                <!-- Mobile Logo (hidden on lg) -->
+                <div class="flex lg:hidden items-center justify-center gap-3 mb-8">
+                    <img src="img/Simple_Reports.png" alt="Reports" class="w-12 h-12 object-contain">
+                    <span class="text-2xl font-bold text-slate-900">Reports</span>
+                </div>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-2">Welcome Back</h2>
+                    <p class="text-slate-500 text-sm">Enter your details to access your reports.</p>
+                </div>
+
+                <div class="auth-tabs flex bg-slate-100 p-1 rounded-xl mb-8">
+                    <button class="auth-tab active flex-1 py-2 text-sm font-medium rounded-lg text-slate-500 transition-all duration-200" data-tab="login" onclick="ReportForge.switchAuthTab('login')">Sign In</button>
+                    <button class="auth-tab flex-1 py-2 text-sm font-medium rounded-lg text-slate-500 transition-all duration-200" data-tab="register" onclick="ReportForge.switchAuthTab('register')">Create Account</button>
+                </div>
+
+                <div id="authError" class="auth-error hidden mb-6 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm"></div>
+
+                <!-- Login -->
+                <div id="loginForm">
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Username</label>
+                        <input id="loginUsername" type="text" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all" placeholder="your_username" autocomplete="username">
+                    </div>
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-1.5">
+                            <label class="block text-sm font-medium text-slate-700">Password</label>
+                            <a href="#" class="text-xs font-medium text-indigo-600 hover:text-indigo-700">Forgot password?</a>
+                        </div>
+                        <input id="loginPassword" type="password" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all" placeholder="••••••••" autocomplete="current-password">
+                    </div>
+                    <button class="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2" onclick="ReportForge.handleLogin()">
+                        <i data-lucide="log-in" class="w-4 h-4"></i> Sign In
+                    </button>
+                    <div class="mt-6 text-center text-sm text-slate-500">
+                        Don't have an account? <span class="font-semibold text-slate-900 cursor-pointer hover:underline" onclick="ReportForge.switchAuthTab('register')">Create one</span>
+                    </div>
+                </div>
+
+                <!-- Register -->
+                <div id="registerForm" class="hidden">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Display Name</label>
+                        <input id="registerName" type="text" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all" placeholder="Alex Mercer" autocomplete="name">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Username</label>
+                        <input id="registerUsername" type="text" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all" placeholder="alex_mercer" autocomplete="username">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Password <span class="text-slate-400 font-normal">(min. 6 chars)</span></label>
+                        <input id="registerPassword" type="password" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all" placeholder="••••••••" autocomplete="new-password">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Confirm Password</label>
+                        <input id="registerConfirm" type="password" class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 transition-all" placeholder="••••••••" autocomplete="new-password">
+                    </div>
+                    <button class="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2" onclick="ReportForge.handleRegister()">
+                        <i data-lucide="user-plus" class="w-4 h-4"></i> Create Account
+                    </button>
+                    <div class="mt-6 text-center text-sm text-slate-500">
+                        Already have an account? <span class="font-semibold text-slate-900 cursor-pointer hover:underline" onclick="ReportForge.switchAuthTab('login')">Sign in</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- DASHBOARD VIEW                                                            -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="view-dashboard" class="flex-1 overflow-y-auto hidden dashboard-theme">
+
+    <!-- Header -->
+    <header class="px-8 py-4 flex justify-between items-center bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center gap-3">
+            <img src="img/Reports.png" alt="Reports by EduAI" class="h-12 w-auto object-contain">
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200">
+                <div class="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xs font-bold user-avatar-letter">A</div>
+                <span class="text-sm font-medium text-slate-700 user-display-name">User</span>
+            </div>
+
+            <button onclick="ReportForge.handleLogout()" class="text-sm font-medium text-slate-500 hover:text-rose-600 transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:bg-rose-50 hover:border-rose-200">
+                <i data-lucide="log-out" class="w-4 h-4"></i> Sign Out
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 py-8">
+
+        <!-- ════ AI HERO BLOCK ════ -->
+        <div class="ai-hero-block">
+
+            <!-- Decorative grid lines -->
+            <div class="ai-hero-grid" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+            </div>
+
+            <!-- Left: text + form -->
+            <div class="ai-hero-left">
+                <div class="ai-hero-badge">
+                    <span class="pulse-dot"></span>
+                    AI · Report Engine
+                </div>
+                <h1 class="ai-hero-title">
+                    Turn any idea into<br>
+                    <span>a&nbsp;report.</span>
+                </h1>
+                <p class="ai-hero-sub">
+                    Type a topic. Our AI writes the full structure — title, sections, and polished content — instantly.
+                </p>
+                <div class="ai-hero-row">
+                    <div class="ai-hero-input-wrapper">
+                        <i data-lucide="pen-line" class="ai-input-icon w-4 h-4"></i>
+                        <input id="aiGeneratorTopic" class="ai-hero-input" type="text"
+                            placeholder="e.g. Q3 SaaS growth analysis, climate policy overview...">
+                        <button id="aiGeneratorBtn" class="ai-hero-btn" onclick="ReportForge.runAIReportGenerator()">
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            Generate
+                        </button>
+                    </div>
+                </div>
+                <div id="aiGeneratorProgress" class="ai-hero-progress hidden">
+                    <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                    Crafting your report...
+                </div>
+                <div class="ai-hero-hints">
+                    <span>Try:</span>
+                    <button class="ai-hint-chip" onclick="document.getElementById('aiGeneratorTopic').value=this.textContent.trim()">Quarterly Business Review</button>
+                    <button class="ai-hint-chip" onclick="document.getElementById('aiGeneratorTopic').value=this.textContent.trim()">Market Entry Analysis</button>
+                    <button class="ai-hint-chip" onclick="document.getElementById('aiGeneratorTopic').value=this.textContent.trim()">Product Launch Plan</button>
+                </div>
+            </div>
+
+            <!-- Right: AI orb -->
+            <div class="ai-hero-orb">
+                <div class="ai-hero-orb-ring"></div>
+                <img src="https://cdn.dribbble.com/userupload/23642921/file/original-acdf573eb0c56c72d1c6b496f23dde56.gif"
+                     alt="AI orb" draggable="false" />
+            </div>
+        </div>
+
+        <!-- Stats row -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+            <div class="stat-card">
+                <div class="stat-icon"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+                <div>
+                    <div class="stat-number" id="statReportCount">0</div>
+                    <div class="stat-label">Saved Reports</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#f0fdf4; color:#16a34a; border-color:#bbf7d0;"><i data-lucide="sparkles" class="w-5 h-5"></i></div>
+                <div>
+                    <div class="stat-number">Unlimited</div>
+                    <div class="stat-label">AI Generation</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#fffbeb; color:#d97706; border-color:#fde68a;"><i data-lucide="clock" class="w-5 h-5"></i></div>
+                <div>
+                    <div class="stat-number" id="statLastUpdated" style="font-size:0.9rem; font-weight:700;">Just now</div>
+                    <div class="stat-label">Last Saved</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Templates ── -->
+        <div class="dashboard-section-label"><i data-lucide="layout-template" class="w-3.5 h-3.5" style="color: #4f46e5"></i> Start from a Template</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+
+            <!-- Blank -->
+            <div class="template-card" onclick="ReportForge.newBlankReport()">
+                <div class="template-preview" style="background: #f8fafc;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md border border-slate-200 shadow-sm p-2 flex flex-col gap-1.5">
+                        <div class="w-5 h-1.5 bg-slate-300 rounded"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-10 h-1 bg-slate-200 rounded"></div>
+                            <div class="w-12 h-1 bg-slate-200 rounded"></div>
+                            <div class="w-8 h-1 bg-slate-200 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 bg-slate-200 rounded"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Blank Canvas</div>
+                        <div class="template-card-desc">Start a report from scratch</div>
+                    </div>
+                    <i data-lucide="plus" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Executive -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('executive')">
+                <div class="template-preview" style="background: #f1f3f7;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #e2e8f0; border-top: 4px solid #0f172a;">
+                        <div class="flex justify-between items-center">
+                            <div class="w-3 h-1 bg-slate-900 rounded"></div>
+                            <div class="w-3 h-1 bg-slate-300 rounded"></div>
+                        </div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-10 h-1 bg-slate-400 rounded"></div>
+                            <div class="w-8 h-1 bg-slate-300 rounded"></div>
+                        </div>
+                        <div class="w-5 h-1 bg-slate-200 rounded"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Executive Whitepaper</div>
+                        <div class="template-card-desc">Authoritative &amp; boardroom-ready</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Tech -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('tech')">
+                <div class="template-preview" style="background: #f0fdf8;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #d1fae5; border-top: 4px solid #10b981;">
+                        <div class="w-4 h-1.5 rounded" style="background: #10b981"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-10 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-8 h-1 rounded" style="background:#10b981"></div>
+                            <div class="w-12 h-1 bg-slate-200 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 bg-slate-200 rounded"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Modern Tech Report</div>
+                        <div class="template-card-desc">Sleek engineering layout</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Creative -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('creative')">
+                <div class="template-preview" style="background: #fff8f3;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #fed7aa; border-top: 4px solid #f97316;">
+                        <div class="w-5 h-1.5 rounded" style="background: #f97316"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-10 h-1 rounded" style="background:#fdba74"></div>
+                            <div class="w-8 h-1 bg-orange-100 rounded"></div>
+                        </div>
+                        <div class="w-3 h-1 rounded" style="background:#ea580c"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Creative Brief</div>
+                        <div class="template-card-desc">Warm serif story format</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Finance -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('finance')">
+                <div class="template-preview" style="background: #f0f9ff;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #bae6fd; border-top: 4px solid #0ea5e9;">
+                        <div class="w-3 h-1.5 rounded" style="background: #0ea5e9"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-11 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-9 h-1 rounded" style="background:#7dd3fc"></div>
+                            <div class="w-12 h-1 bg-sky-100 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 rounded" style="background:#7dd3fc"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Financial Report</div>
+                        <div class="template-card-desc">Data-driven, spreadsheet styles</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Research -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('research')">
+                <div class="template-preview" style="background: #faf5ff;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #ddd6fe; border-top: 4px solid #7c3aed;">
+                        <div class="w-2 h-2 rounded-full" style="background: #7c3aed"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-10 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-8 h-1 rounded" style="background:#a78bfa"></div>
+                            <div class="w-6 h-1 bg-purple-100 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 rounded" style="background:#a78bfa"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Academic Research</div>
+                        <div class="template-card-desc">Scholarly multi-column layout</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Marketing -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('marketing')">
+                <div class="template-preview" style="background: #fdf2f8;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #fbcfe8; border-top: 4px solid #ec4899;">
+                        <div class="w-4 h-1.5 rounded" style="background: #ec4899"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-10 h-1 rounded" style="background:#f9a8d4"></div>
+                            <div class="w-8 h-1 bg-pink-100 rounded"></div>
+                        </div>
+                        <div class="w-3 h-1 rounded" style="background:#ec4899"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Marketing Proposal</div>
+                        <div class="template-card-desc">Vibrant campaign design</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Project Status -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('project')">
+                <div class="template-preview" style="background: #fffbeb;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #fde68a; border-top: 4px solid #f59e0b;">
+                        <div class="w-4 h-1 rounded" style="background:#d97706"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-7 h-1.5 rounded" style="background:#fbbf24"></div>
+                            <div class="w-9 h-1 bg-amber-100 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 rounded" style="background:#fbbf24"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Project Status</div>
+                        <div class="template-card-desc">Milestones, timelines & objectives</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Minimalist -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('minimalist')">
+                <div class="template-preview" style="background: #fafafa;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md border border-slate-200 shadow-sm p-2 flex flex-col gap-1.5">
+                        <div class="w-3 h-1 bg-slate-700 rounded"></div>
+                        <div class="flex-1 flex flex-col gap-1.5 justify-center">
+                            <div class="w-10 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-8 h-1 bg-slate-400 rounded"></div>
+                            <div class="w-6 h-1 bg-slate-300 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 bg-slate-200 rounded"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Minimalist</div>
+                        <div class="template-card-desc">Pure simplicity, extreme readability</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Case Study -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('case_study')">
+                <div class="template-preview" style="background: #eff6ff;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #bfdbfe; border-top: 4px solid #2563eb;">
+                        <div class="w-3 h-1.5 rounded" style="background: #2563eb"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-9 h-1 rounded" style="background:#93c5fd"></div>
+                            <div class="w-11 h-1 bg-blue-100 rounded"></div>
+                        </div>
+                        <div class="w-4 h-1 rounded" style="background:#93c5fd"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Case Study</div>
+                        <div class="template-card-desc">Problems, solutions, key figures</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Neon Dark -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('neon')">
+                <div class="template-preview" style="background: #0c0a1e;">
+                    <div class="w-[72px] h-[92px] rounded-md shadow-sm p-2 flex flex-col gap-1" style="background:#13103a; border: 1px solid #1e1a5e; border-left: 3px solid #06b6d4;">
+                        <div class="w-4 h-1 rounded" style="background:#06b6d4"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-11 h-1.5 rounded" style="background:#e2e8f0"></div>
+                            <div class="w-8 h-1 rounded" style="background:#06b6d4; opacity:0.7"></div>
+                            <div class="w-10 h-1 rounded" style="background:#334155"></div>
+                        </div>
+                        <div class="w-3 h-1 rounded" style="background:#06b6d4; opacity:0.5"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Neon Dark</div>
+                        <div class="template-card-desc">Cyberpunk, electric cyan on dark</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Editorial -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('editorial')">
+                <div class="template-preview" style="background: #fefce8;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #fef08a; border-top: 3px solid #b91c1c;">
+                        <div class="w-full h-0.5 rounded" style="background:#b91c1c; opacity:0.3"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-2 bg-slate-900 rounded" style="font-family:serif"></div>
+                            <div class="w-full h-0.5 bg-slate-300 rounded"></div>
+                            <div class="w-10 h-1 bg-slate-500 rounded"></div>
+                            <div class="w-8 h-1 bg-slate-400 rounded"></div>
+                        </div>
+                        <div class="w-full h-0.5 rounded" style="background:#b91c1c; opacity:0.3"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Editorial</div>
+                        <div class="template-card-desc">Newspaper serif, journalism tone</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Mono Code -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('mono')">
+                <div class="template-preview" style="background: #f0fdf4;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #bbf7d0; border-left: 3px solid #16a34a;">
+                        <div class="w-5 h-1 rounded" style="background:#16a34a; opacity:0.6"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-start pt-1">
+                            <div class="w-12 h-1 bg-slate-800 rounded"></div>
+                            <div class="w-8 h-1 bg-slate-400 rounded"></div>
+                            <div class="w-10 h-1 bg-slate-300 rounded"></div>
+                            <div class="w-6 h-1 rounded" style="background:#16a34a"></div>
+                            <div class="w-9 h-1 bg-slate-300 rounded"></div>
+                        </div>
+                        <div class="w-3 h-1 rounded" style="background:#16a34a; opacity:0.4"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Mono Code</div>
+                        <div class="template-card-desc">Monospace, technical docs style</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Soft Pastel -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('soft')">
+                <div class="template-preview" style="background: #fdf4ff;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-xl shadow-sm p-2 flex flex-col gap-1.5" style="border: 1px solid #f5d0fe;">
+                        <div class="w-5 h-2 rounded-full" style="background:#d946ef; opacity:0.7"></div>
+                        <div class="flex-1 flex flex-col gap-1.5 justify-center">
+                            <div class="w-10 h-1.5 rounded-full bg-slate-700"></div>
+                            <div class="w-12 h-1 rounded-full" style="background:#e879f9; opacity:0.5"></div>
+                            <div class="w-8 h-1 rounded-full bg-fuchsia-100"></div>
+                        </div>
+                        <div class="flex gap-1">
+                            <div class="w-3 h-3 rounded-full" style="background:#d946ef; opacity:0.3"></div>
+                            <div class="w-3 h-3 rounded-full" style="background:#d946ef; opacity:0.6"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Soft Pastel</div>
+                        <div class="template-card-desc">Rounded, gentle, HR & wellness</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Blueprint -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('blueprint')">
+                <div class="template-preview" style="background: #0f2744;">
+                    <div class="w-[72px] h-[92px] rounded-md shadow-sm p-2 flex flex-col gap-1" style="background:#0d2137; border: 1px solid #1e3a5f; border-top: 3px solid #38bdf8;">
+                        <div class="flex items-center gap-1">
+                            <div class="w-2 h-2 rounded-full" style="background:#38bdf8; opacity:0.8"></div>
+                            <div class="w-6 h-1 rounded" style="background:#38bdf8; opacity:0.5"></div>
+                        </div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-11 h-1.5 rounded" style="background:#e2e8f0"></div>
+                            <div class="w-9 h-1 rounded" style="background:#7dd3fc; opacity:0.6"></div>
+                            <div class="w-12 h-1 rounded" style="background:#1e3a5f"></div>
+                        </div>
+                        <div class="w-4 h-1 rounded" style="background:#38bdf8; opacity:0.4"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Blueprint</div>
+                        <div class="template-card-desc">Navy consulting, authoritative</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Gradient Ink -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('gradient_ink')">
+                <div class="template-preview" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #ddd6fe; border-top: 4px solid #7c3aed;">
+                        <div class="w-full h-1 rounded" style="background: linear-gradient(90deg, #7c3aed, #06b6d4); opacity:0.5"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-1.5 bg-slate-800 rounded"></div>
+                            <div class="w-10 h-1 rounded" style="background:#a78bfa"></div>
+                            <div class="w-8 h-1 bg-violet-100 rounded"></div>
+                        </div>
+                        <div class="w-full h-0.5 rounded" style="background: linear-gradient(90deg, #7c3aed, #06b6d4); opacity:0.3"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Gradient Ink</div>
+                        <div class="template-card-desc">Violet-teal luxury, Crimson serif</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Charcoal Stone -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('charcoal')">
+                <div class="template-preview" style="background: #1c1917;">
+                    <div class="w-[72px] h-[92px] rounded-md shadow-sm p-2 flex flex-col gap-1" style="background:#292524; border: 1px solid #3d3633; border-left: 3px solid #f59e0b;">
+                        <div class="w-4 h-1 rounded" style="background:#f59e0b; opacity:0.7"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-11 h-1.5 rounded" style="background:#e7e5e4"></div>
+                            <div class="w-8 h-1 rounded" style="background:#fbbf24; opacity:0.5"></div>
+                            <div class="w-10 h-1 rounded" style="background:#44403c"></div>
+                        </div>
+                        <div class="w-3 h-1 rounded" style="background:#f59e0b; opacity:0.4"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Charcoal Stone</div>
+                        <div class="template-card-desc">Dark grey, amber — strategy reports</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+
+            <!-- Coral Warm -->
+            <div class="template-card" onclick="ReportForge.loadTemplate('coral')">
+                <div class="template-preview" style="background: #fff1f2;">
+                    <div class="w-[72px] h-[92px] bg-white rounded-md shadow-sm p-2 flex flex-col gap-1" style="border: 1px solid #fecdd3; border-top: 4px solid #e11d48;">
+                        <div class="w-5 h-1.5 rounded" style="background:#e11d48; opacity:0.7"></div>
+                        <div class="flex-1 flex flex-col gap-1 justify-center">
+                            <div class="w-12 h-2 bg-slate-800 rounded"></div>
+                            <div class="w-10 h-1 rounded" style="background:#fda4af"></div>
+                            <div class="w-8 h-1 bg-rose-100 rounded"></div>
+                        </div>
+                        <div class="w-3 h-1 rounded" style="background:#e11d48; opacity:0.4"></div>
+                    </div>
+                </div>
+                <div class="template-card-footer">
+                    <div>
+                        <div class="template-card-label">Coral Warm</div>
+                        <div class="template-card-desc">Terracotta, human, impact reports</div>
+                    </div>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400"></i>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ── Saved Reports ── -->
+        <div class="dashboard-section-label"><i data-lucide="folder-open" class="w-3.5 h-3.5" style="color:#10b981"></i> Your Saved Reports</div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 pb-16" id="savedReportsGrid">
+            <div class="empty-state">
+                <div class="empty-icon"><i data-lucide="file-minus" class="w-7 h-7" style="color:#94a3b8"></i></div>
+                <p class="text-sm font-medium text-slate-400 mt-1">No reports yet. Create your first one!</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- BUILDER VIEW                                                              -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<div id="view-builder" class="flex-1 flex flex-col overflow-hidden hidden">
+
+    <!-- Builder Header -->
+    <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between z-20 flex-shrink-0">
+        <div class="flex items-center gap-3">
+            <button onclick="ReportForge.switchView('dashboard')" class="text-slate-500 hover:text-slate-900 p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-2">
+                <img src="img/Simple_Reports.png" alt="Reports" class="w-8 h-8 object-contain">
+                <span class="font-bold text-slate-800">Report Builder</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button id="saveReportBtn" class="text-sm font-medium text-slate-600 hover:text-slate-900 px-4 py-2 rounded-lg hover:bg-slate-100 transition-colors flex items-center gap-1.5 border border-slate-200">
+                <i data-lucide="save" class="w-4 h-4"></i> Save
+            </button>
+            <button id="downloadBtn" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2.5 rounded-lg flex items-center gap-2 transition-colors shadow-sm text-sm">
+                <i data-lucide="download" class="w-4 h-4"></i> Generate PDF
+            </button>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+
+        <!-- ── Left Panel ── -->
+        <aside id="builder-panel" class="w-[380px] bg-white border-r border-slate-100 overflow-y-auto flex-shrink-0" style="position:relative;">
+
+            <!-- Configuration -->
+            <div class="p-5 border-b border-slate-100 space-y-3">
+                <div class="panel-label"><i data-lucide="settings-2" class="w-3 h-3"></i> Configuration</div>
+                <div class="field-group">
+                    <label class="input-label">Report Title</label>
+                    <input type="text" id="inputTitle" class="input-field" placeholder="Your report title...">
+                </div>
+                <div class="field-group">
+                    <label class="input-label">Subtitle</label>
+                    <input type="text" id="inputSubtitle" class="input-field" placeholder="A compelling subtitle...">
+                </div>
+                <!-- AI title suggest -->
+                <div style="position:relative;">
+                    <button id="suggestTitlesBtn" class="w-full py-1.5 text-xs font-medium text-indigo-600 border border-indigo-100 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+                        <i data-lucide="sparkles" class="w-3 h-3"></i> Suggest Titles with AI
+                    </button>
+                </div>
+                <div class="field-row">
+                    <div><label class="input-label">Author</label><input type="text" id="inputAuthor" class="input-field" placeholder="Full name"></div>
+                    <div><label class="input-label">Role</label><input type="text" id="inputRole" class="input-field" placeholder="Job title"></div>
+                </div>
+                <div class="field-group">
+                    <label class="input-label">Date</label>
+                    <input type="text" id="inputDate" class="input-field" placeholder="e.g. June 2025">
+                </div>
+            </div>
+
+            <!-- Logo -->
+            <div class="p-5 border-b border-slate-100 space-y-3">
+                <div class="panel-label"><i data-lucide="image" class="w-3 h-3"></i> Logo Settings</div>
+                <div class="flex items-center gap-3">
+                    <img id="logoPreview" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="w-20 h-9 object-contain border border-slate-200 rounded-md bg-slate-50 p-1">
+                    <label class="flex-1 cursor-pointer bg-white border border-slate-200 text-slate-600 font-medium px-3 py-2 rounded-md text-xs flex items-center justify-center gap-2 hover:bg-slate-50 transition-colors">
+                        <i data-lucide="upload" class="w-3.5 h-3.5"></i> Upload Logo
+                        <input type="file" id="logoUpload" accept="image/*" class="hidden">
+                    </label>
+                </div>
+                <div>
+                    <label class="input-label mb-1.5">Logo Position</label>
+                    <div class="logo-pos-group">
+                        <button data-pos="left" class="logo-pos-btn">Left</button>
+                        <button data-pos="right" class="logo-pos-btn">Right</button>
+                        <button data-pos="hide" class="logo-pos-btn">Hide</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brand Color -->
+            <div class="p-5 border-b border-slate-100">
+                <div class="panel-label"><i data-lucide="palette" class="w-3 h-3"></i> Brand Color</div>
+                <div class="color-swatches">
+                    <button data-color="#4f46e5" class="color-btn" style="background:#4f46e5;" title="Indigo"></button>
+                    <button data-color="#0ea5e9" class="color-btn" style="background:#0ea5e9;" title="Sky"></button>
+                    <button data-color="#10b981" class="color-btn" style="background:#10b981;" title="Emerald"></button>
+                    <button data-color="#f97316" class="color-btn" style="background:#f97316;" title="Orange"></button>
+                    <button data-color="#e11d48" class="color-btn" style="background:#e11d48;" title="Rose"></button>
+                    <button data-color="#7c3aed" class="color-btn" style="background:#7c3aed;" title="Violet"></button>
+                    <button data-color="#0f172a" class="color-btn" style="background:#0f172a;border:1px solid #e2e8f0;" title="Slate"></button>
+                    <button data-color="#d97706" class="color-btn" style="background:#d97706;" title="Amber"></button>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-xs text-slate-400">Custom</span>
+                        <input type="color" id="customColorPicker" value="#4f46e5" title="Custom color">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <div class="p-5 border-b border-slate-100 space-y-3">
+                <div class="panel-label"><i data-lucide="type" class="w-3 h-3"></i> Typography</div>
+                <div class="field-group">
+                    <label class="input-label">Heading Font</label>
+                    <select id="headingFontSelect" class="font-select"></select>
+                </div>
+                <div class="field-group">
+                    <label class="input-label">Body Font</label>
+                    <select id="bodyFontSelect" class="font-select"></select>
+                </div>
+            </div>
+
+            <!-- Size Controls -->
+            <div class="p-5 border-b border-slate-100 space-y-1">
+                <div class="panel-label"><i data-lucide="sliders-horizontal" class="w-3 h-3"></i> Size Controls</div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Title Size</span><span class="slider-value" id="valTitleSize">56</span></div>
+                    <input type="range" id="sliderTitleSize" min="28" max="96" step="1" value="56">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Heading Size</span><span class="slider-value" id="valHeadingSize">32</span></div>
+                    <input type="range" id="sliderHeadingSize" min="18" max="56" step="1" value="32">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Body Size</span><span class="slider-value" id="valBodySize">15</span></div>
+                    <input type="range" id="sliderBodySize" min="10" max="22" step="0.5" value="15">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Line Height</span><span class="slider-value" id="valLineHeight">1.8</span></div>
+                    <input type="range" id="sliderLineHeight" min="1.3" max="2.5" step="0.05" value="1.8">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Page Margin</span><span class="slider-value" id="valPageMargin">80</span></div>
+                    <input type="range" id="sliderPageMargin" min="30" max="130" step="5" value="80">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Image Width (%)</span><span class="slider-value" id="valImageWidth">100</span></div>
+                    <input type="range" id="sliderImageWidth" min="20" max="100" step="5" value="100">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Logo Width</span><span class="slider-value" id="valLogoWidth">140</span></div>
+                    <input type="range" id="sliderLogoWidth" min="40" max="280" step="5" value="140">
+                </div>
+                <div class="slider-group">
+                    <div class="slider-header"><span class="slider-label">Logo Height</span><span class="slider-value" id="valLogoHeight">40</span></div>
+                    <input type="range" id="sliderLogoHeight" min="20" max="100" step="2" value="40">
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="p-5 space-y-3">
+                <div class="panel-label"><i data-lucide="layers" class="w-3 h-3"></i> Content Sections</div>
+                <div id="sectionsList"></div>
+
+                <div class="add-section-row">
+                    <input type="text" id="aiSectionTitleInput" class="add-section-input" placeholder="Section title...">
+                </div>
+                <div class="add-section-row">
+                    <button id="addSectionBtn" class="add-section-btn" style="flex:1;">
+                        <span style="display:flex;align-items:center;gap:4px;justify-content:center;"><i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Add Section</span>
+                    </button>
+                    <button id="aiGenerateSectionBtn" class="add-section-btn" style="background:#f0f0ff;border-color:#e0e0ff;color:#6366f1;flex:1;">
+                        <span style="display:flex;align-items:center;gap:4px;justify-content:center;"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> AI Write</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ── Preview Panel ── -->
+        <main id="preview-panel" class="flex-1 overflow-y-auto p-10 bg-slate-100/60 flex justify-center">
+            <div id="reportTemplate">
+                <!-- Cover Page -->
+                <div class="report-cover">
+                    <div class="report-cover-top">
+                        <div id="logoContainerLeft" style="display:flex;align-items:center;"></div>
+                        <div style="text-align:right;"><p id="reportDate"></p></div>
+                        <div id="logoContainerRight" style="display:flex;align-items:center;"></div>
+                    </div>
+                    <div class="report-cover-body">
+                        <div id="accentTag" class="report-tag">Official Report</div>
+                        <h1 id="reportTitle"></h1>
+                        <p id="reportSubtitle"></p>
+                    </div>
+                    <div class="report-cover-footer">
+                        <div>
+                            <p style="font-size:0.65rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Authored by</p>
+                            <p id="reportAuthor"></p>
+                            <p id="reportRole"></p>
+                        </div>
+                        <i data-lucide="bookmark" style="width:36px;height:36px;color:#e2e8f0;"></i>
+                    </div>
+                    <!-- Decorative blobs -->
+                    <div id="coverCircle" class="cover-deco" style="width:360px;height:360px;top:-90px;right:-90px;opacity:0.07;"></div>
+                    <div id="coverSquare" class="cover-deco" style="width:240px;height:240px;bottom:-80px;left:-60px;opacity:0.05;"></div>
+                </div>
+
+                <!-- Body -->
+                <div class="report-body">
+                    <div id="reportContent"></div>
+                </div>
+
+                <!-- Footer -->
+                <div class="report-footer">
+                    <span id="footerTitle" class="font-semibold text-slate-500"></span>
+                    <span>Generated with ReportForge</span>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+<!-- MODALS                                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════════ -->
+
+
+
+<!-- Confirm Delete Modal -->
+<div id="confirmDeleteModal" class="modal-backdrop hidden">
+    <div class="modal-box">
+        <div class="modal-title">Delete Report</div>
+        <div class="modal-body" id="confirmDeleteMsg">Are you sure you want to delete this report? This cannot be undone.</div>
+        <div class="modal-actions">
+            <button class="btn-modal-cancel" onclick="document.getElementById('confirmDeleteModal').classList.add('hidden')">Cancel</button>
+            <button class="btn-modal-danger" onclick="ReportForge.executeDeleteReport()">Yes, Delete It</button>
+        </div>
+    </div>
+</div>
+
+<!-- Format Guide Modal -->
+<div id="formatGuideModal" class="modal-backdrop hidden">
+    <div class="modal-box" style="max-width: 650px; padding: 2rem 2.5rem;">
+        <div class="modal-title">Markdown Formatting Guide</div>
+        <div class="modal-body" style="margin-bottom: 0;">
+            <div class="fmt-guide-grid">
+                <div class="fmt-col">
+                    <div class="fmt-group-title">✏️ Inline Styles</div>
+                    <div class="fmt-row"><span class="fmt-syntax">**text**</span><span class="fmt-desc"><strong>Bold</strong></span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">__text__</span><span class="fmt-desc"><strong>Bold</strong> (alt)</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">*text*</span><span class="fmt-desc"><em>Italic</em></span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">_text_</span><span class="fmt-desc"><em>Italic</em> (alt)</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">~~text~~</span><span class="fmt-desc"><s>Strikethrough</s></span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">`code`</span><span class="fmt-desc" style="font-family:monospace;background:#f1f5f9;padding:0 3px;border-radius:3px;">Inline code</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">==text==</span><span class="fmt-desc" style="background:#fef9c3;padding:0 3px;">Highlight</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">^text^</span><span class="fmt-desc">Super<sup>script</sup></span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">~text~</span><span class="fmt-desc">Sub<sub>script</sub></span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">[Label](url)</span><span class="fmt-desc">Hyperlink</span></div>
+                </div>
+                <div class="fmt-col">
+                    <div class="fmt-group-title">📐 Block Elements</div>
+                    <div class="fmt-row"><span class="fmt-syntax"># Heading 1</span><span class="fmt-desc">Large heading</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">## Heading 2</span><span class="fmt-desc">Medium heading</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">### Heading 3</span><span class="fmt-desc">Small heading</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">#### Heading 4</span><span class="fmt-desc">Tiny heading</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">&gt; text</span><span class="fmt-desc">Blockquote</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">- item</span><span class="fmt-desc">Bullet list</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">1. item</span><span class="fmt-desc">Numbered list</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">---</span><span class="fmt-desc">Horizontal rule</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">![Alt](url)</span><span class="fmt-desc">Image</span></div>
+                    <div class="fmt-row"><span class="fmt-syntax">![Alt](url|80%)</span><span class="fmt-desc">Image with width</span></div>
+                </div>
+                <div class="fmt-col">
+                    <div class="fmt-group-title">📊 Table</div>
+                    <div class="fmt-row fmt-row--block"><span class="fmt-syntax">| Col A | Col B |<br>|---|---|<br>| data | data |</span></div>
+                    <div class="fmt-group-title" style="margin-top:10px;">🤖 AI Combos</div>
+                    <div class="fmt-row fmt-row--block"><span class="fmt-syntax">**==key term==**</span><span class="fmt-desc">Bold + Highlight</span></div>
+                    <div class="fmt-row fmt-row--block"><span class="fmt-syntax">**[Label](url)**</span><span class="fmt-desc">Bold link</span></div>
+                    <div class="fmt-row fmt-row--block"><span class="fmt-syntax">~~*old price*~~</span><span class="fmt-desc">Strike + Italic</span></div>
+                    <div class="fmt-group-title" style="margin-top:10px;">💡 Tips</div>
+                    <div class="fmt-tip">Blank line = paragraph break</div>
+                    <div class="fmt-tip">Mix bold, italic, code freely inline</div>
+                    <div class="fmt-tip">Headings use your heading font</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-actions" style="margin-top: 2rem;">
+            <button class="btn-modal-primary" onclick="document.getElementById('formatGuideModal').classList.add('hidden')">Close Guide</button>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Text Toolbar -->
+<div id="floatingToolbar" class="floating-toolbar ft-hidden">
+    <div class="ft-group">
+        <button class="ft-btn" data-fmt="bold" title="Bold">B</button>
+        <button class="ft-btn" data-fmt="italic" title="Italic" style="font-style: italic;">I</button>
+        <button class="ft-btn" data-fmt="underline" title="Underline" style="text-decoration: underline;">U</button>
+        <button class="ft-btn" data-fmt="strikethrough" title="Strikethrough" style="text-decoration: line-through;">S</button>
+        <button class="ft-btn" data-fmt="highlight" title="Highlight" style="background:#fef9c3;color:#000;">H</button>
+    </div>
+    <div class="ft-divider"></div>
+    <div class="ft-group">
+        <button class="ft-btn" data-fmt="size-down" title="Decrease Size">A-</button>
+        <button class="ft-btn" data-fmt="size-up" title="Increase Size">A+</button>
+    </div>
+    <div class="ft-divider"></div>
+    <div class="ft-group">
+        <input type="color" id="ftColorPicker" class="ft-color" title="Text Color" value="#000000">
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/db.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/builder.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
