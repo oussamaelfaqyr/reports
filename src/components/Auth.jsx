@@ -132,7 +132,7 @@ export function Auth({ onLoginSuccess }) {
   return (
     <div className="flex-1 w-full h-screen">
       <div className="flex w-full h-full">
-        {/* Left Side: Branded Welcome Panel */}
+        {/* Left Side: Visual Panel with GIF */}
         <div className="hidden lg:flex w-1/2 bg-black text-white flex-col justify-between p-12 lg:p-16 relative overflow-hidden">
           {/* subtle grid pattern overlay */}
           <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 60px),repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 60px)'}} />
@@ -142,39 +142,14 @@ export function Auth({ onLoginSuccess }) {
             <img src={logoFull} alt="EduAi Reports" className="h-10 w-auto brightness-0 invert" />
           </div>
 
-          {/* Main welcome content */}
-          <div className="relative z-10 max-w-md">
-            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-6">AI-Powered Platform</p>
-            <h2 className="text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
-              Welcome to<br />
-              <span className="text-neutral-400">EduAi Reports</span>
-            </h2>
-            <p className="text-neutral-400 leading-relaxed mb-10 font-light text-lg">
-              The professional report builder powered by Gemini AI. Create, design, and export stunning PDF reports in minutes.
-            </p>
-
-            <div className="space-y-5">
-              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-4">
-                <Sparkles className="w-5 h-5 text-white flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-semibold text-white">AI-Powered Generation</p>
-                  <p className="text-xs text-neutral-500 mt-0.5">Full reports from a single prompt</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-4">
-                <LayoutTemplate className="w-5 h-5 text-white flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-semibold text-white">Premium Templates</p>
-                  <p className="text-xs text-neutral-500 mt-0.5">Professional layouts for every industry</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-4">
-                <Download className="w-5 h-5 text-white flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-semibold text-white">Flawless PDF Export</p>
-                  <p className="text-xs text-neutral-500 mt-0.5">Pixel-perfect A4 documents in one click</p>
-                </div>
-              </div>
+          {/* GIF Hero */}
+          <div className="relative z-10 flex-1 flex items-center justify-center py-10">
+            <div className="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/50">
+              <img
+                src="https://cdn.dribbble.com/userupload/23642921/file/original-acdf573eb0c56c72d1c6b496f23dde56.gif"
+                alt="EduAi Reports Platform"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
