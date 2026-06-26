@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Sparkles, LayoutTemplate, Download, ArrowRight, Check,
   Zap, Users, Star, ChevronDown, Menu, X,
-  Shield, Globe, Clock, TrendingUp, PenTool
+  Shield, Globe, Clock, TrendingUp, PenTool, FileText
 } from 'lucide-react';
 import logoFull from '../assets/logo_full.png';
 import logoIcon from '../assets/logo_icon.png';

@@ -137,14 +137,20 @@ export function Auth({ onLoginSuccess }) {
           {/* subtle grid pattern overlay */}
           <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 60px),repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 60px)'}} />
 
-          {/* Logo */}
-          <div className="relative z-10">
-            <img src={logoFull} alt="EduAi Reports" className="h-10 w-auto brightness-0 invert" />
+          {/* Logo & Welcome Header */}
+          <div className="relative z-10 flex flex-col gap-6">
+            <img src={logoFull} alt="EduAi Reports" className="h-10 w-auto brightness-0 invert self-start" />
+            <div className="mt-4">
+              <h1 className="text-4xl font-extrabold tracking-tight mb-3">Welcome to Reports EduAi Platform</h1>
+              <p className="text-neutral-400 text-base font-light max-w-md leading-relaxed">
+                Unlock the power of Gemini AI to draft, design, and export professional A4 PDF reports in seconds.
+              </p>
+            </div>
           </div>
 
           {/* GIF Hero */}
-          <div className="relative z-10 flex-1 flex items-center justify-center py-10">
-            <div className="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/50">
+          <div className="relative z-10 flex-1 flex items-center justify-center py-6">
+            <div className="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl shadow-black/50 border border-neutral-800">
               <img
                 src="https://cdn.dribbble.com/userupload/23642921/file/original-acdf573eb0c56c72d1c6b496f23dde56.gif"
                 alt="EduAi Reports Platform"
@@ -171,10 +177,16 @@ export function Auth({ onLoginSuccess }) {
               <img src={logoFull} alt="EduAi Reports" className="h-10 w-auto" />
             </div>
 
-            <div className="mb-10">
-              <h2 className="text-3xl font-bold text-black mb-3 tracking-tight">Welcome Back</h2>
-              <p className="text-neutral-500 text-sm font-light">Enter your details to access your reports.</p>
-            </div>
+            {!isVerifying && (
+              <div className="mb-10">
+                <h2 className="text-3xl font-bold text-black mb-3 tracking-tight">
+                  {tab === 'login' ? 'Welcome Back' : 'Create Account'}
+                </h2>
+                <p className="text-neutral-500 text-sm font-light">
+                  {tab === 'login' ? 'Enter your details to access your reports.' : 'Get started by creating your account.'}
+                </p>
+              </div>
+            )}
 
             <div className="flex bg-neutral-100/50 p-1 rounded-xl mb-10 border border-neutral-100">
               <button 

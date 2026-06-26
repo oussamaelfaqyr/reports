@@ -171,7 +171,6 @@ ReportForge.templates = {
                 { id: 4, title: 'Findings & Discussion', content: '> The data compels us to reconsider the binary framing of human vs. AI decision making. The evidence supports a third paradigm: collaborative cognitive architecture.\n\nKey findings across all participant groups:\n\n- Decision accuracy: 34.7% improvement in human-AI collaborative condition vs. unaided baseline\n- Cognitive load: 28% reduction in NASA-TLX scores for structured collaboration vs. unstructured AI exposure\n- Overreliance risk: observed in 23% of participants when AI confidence scores exceeded 90%\n- Expert-novice differential: AI assistance yielded greater performance gains for novice practitioners (41%) vs. domain experts (18%)\n\nThese findings suggest that AI-assisted decision support systems must be designed with explicit calibration mechanisms to prevent automation bias while maximizing collaborative cognitive efficiency.' }
             ]
         }
-        }
     },
 
     marketing: {
