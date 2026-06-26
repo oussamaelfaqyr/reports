@@ -130,9 +130,12 @@ export function Auth({ onLoginSuccess }) {
   return (
     <div className="flex-1 w-full h-screen">
       <div className="flex w-full h-full">
-        {/* Left Side: Premium Black & White Landing Info */}
-        <div className="hidden lg:flex w-1/2 bg-black text-white flex-col justify-between p-12 lg:p-20 relative overflow-hidden">
-          
+        {/* Left Side: Branded Welcome Panel */}
+        <div className="hidden lg:flex w-1/2 bg-black text-white flex-col justify-between p-12 lg:p-16 relative overflow-hidden">
+          {/* subtle grid pattern overlay */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 60px),repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 60px)'}} />
+
+          {/* Logo */}
           <div className="relative z-10 flex items-center gap-3">
             <div className="bg-white text-black p-2 rounded-lg">
               <Circle className="w-5 h-5 fill-black" />
@@ -140,19 +143,49 @@ export function Auth({ onLoginSuccess }) {
             <span className="text-xl font-bold tracking-tight">EduAi Reports</span>
           </div>
 
-          <div className="relative z-10 max-w-lg mt-auto mb-auto">
-            <h1 className="text-5xl lg:text-7xl font-bold leading-[1.1] mb-8 font-serif tracking-tight">
-              Welcome.
-            </h1>
-            <p className="text-xl text-neutral-300 leading-relaxed font-light">
-              Experience the new standard in professional document generation. 
-              <br/><br/>
-              Log in to craft, design, and export stunning A4 reports seamlessly.
+          {/* Main welcome content */}
+          <div className="relative z-10 max-w-md">
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500 mb-6">AI-Powered Platform</p>
+            <h2 className="text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 tracking-tight">
+              Welcome to<br />
+              <span className="text-neutral-400">EduAi Reports</span>
+            </h2>
+            <p className="text-neutral-400 leading-relaxed mb-10 font-light text-lg">
+              The professional report builder powered by Gemini AI. Create, design, and export stunning PDF reports in minutes.
             </p>
+
+            <div className="space-y-5">
+              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-4">
+                <Sparkles className="w-5 h-5 text-white flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-white">AI-Powered Generation</p>
+                  <p className="text-xs text-neutral-500 mt-0.5">Full reports from a single prompt</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-4">
+                <LayoutTemplate className="w-5 h-5 text-white flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-white">Premium Templates</p>
+                  <p className="text-xs text-neutral-500 mt-0.5">Professional layouts for every industry</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-5 py-4">
+                <Download className="w-5 h-5 text-white flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-white">Flawless PDF Export</p>
+                  <p className="text-xs text-neutral-500 mt-0.5">Pixel-perfect A4 documents in one click</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="relative z-10 text-xs text-neutral-600 font-medium tracking-wide uppercase">
-            © 2026 EduAi Reports Inc.
+          {/* Footer */}
+          <div className="relative z-10 flex items-center justify-between">
+            <p className="text-xs text-neutral-700 font-medium uppercase tracking-wide">© 2026 EduAi Reports Inc.</p>
+            <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-xs text-neutral-400">All systems operational</span>
+            </div>
           </div>
         </div>
 

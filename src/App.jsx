@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Auth } from './components/Auth';
+import { LandingPage } from './components/LandingPage';
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [view, setView] = useState('landing'); // 'landing' | 'auth'
 
   // Read backend auth session (set by Auth.jsx on login/verify)
   function getAuthUser() {
@@ -45,14 +46,10 @@ function App() {
     if (user) bridgeToLegacyApp(user);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('rf_token');
-    localStorage.removeItem('rf_user');
-    localStorage.removeItem('rf_current_user');
-    setCurrentUser(null);
-  };
+  if (view === 'landing') {
+    return <LandingPage onGetStarted={() => setView('auth')} />;
+  }
 
-  // Only show the Auth screen — once logged in we redirect to the legacy app
   return <Auth onLoginSuccess={handleLoginSuccess} />;
 }
 
