@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Circle, Sparkles, LayoutTemplate, Download, LogIn, UserPlus } from 'lucide-react';
+import { Sparkles, LayoutTemplate, Download, LogIn, UserPlus } from 'lucide-react';
 import { DB } from '../utils/db';
+import logoFull from '../assets/logo_full.png';
+import logoIcon from '../assets/logo_icon.png';
 
 export function Auth({ onLoginSuccess }) {
   const [tab, setTab] = useState('login');
@@ -136,11 +138,8 @@ export function Auth({ onLoginSuccess }) {
           <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: 'repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 1px,transparent 60px),repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 1px,transparent 60px)'}} />
 
           {/* Logo */}
-          <div className="relative z-10 flex items-center gap-3">
-            <div className="bg-white text-black p-2 rounded-lg">
-              <Circle className="w-5 h-5 fill-black" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">EduAi Reports</span>
+          <div className="relative z-10">
+            <img src={logoFull} alt="EduAi Reports" className="h-10 w-auto brightness-0 invert" />
           </div>
 
           {/* Main welcome content */}
@@ -193,11 +192,8 @@ export function Auth({ onLoginSuccess }) {
         <div className="w-full lg:w-1/2 flex items-center justify-center bg-white p-6 lg:p-12 overflow-y-auto">
           <div className="w-full max-w-[400px]">
             
-            <div className="flex lg:hidden items-center justify-center gap-3 mb-12">
-              <div className="bg-black p-2 rounded-lg">
-                <Circle className="w-5 h-5 text-white fill-white" />
-              </div>
-              <span className="text-xl font-bold text-black">EduAi Reports</span>
+            <div className="flex lg:hidden items-center justify-center mb-12">
+              <img src={logoFull} alt="EduAi Reports" className="h-10 w-auto" />
             </div>
 
             <div className="mb-10">

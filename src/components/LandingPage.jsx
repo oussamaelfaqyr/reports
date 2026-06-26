@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
   Sparkles, LayoutTemplate, Download, ArrowRight, Check,
-  FileText, Zap, Users, Star, ChevronDown, Menu, X,
-  Shield, Globe, Clock, TrendingUp, PenTool, Eye
+  Zap, Users, Star, ChevronDown, Menu, X,
+  Shield, Globe, Clock, TrendingUp, PenTool
 } from 'lucide-react';
+import logoFull from '../assets/logo_full.png';
+import logoIcon from '../assets/logo_icon.png';
 
 export function LandingPage({ onGetStarted }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,11 +23,8 @@ export function LandingPage({ onGetStarted }) {
       {/* ── Navbar ── */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur border-b border-neutral-100 shadow-sm' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-black text-white p-2 rounded-lg">
-              <FileText className="w-4 h-4" />
-            </div>
-            <span className="text-lg font-bold tracking-tight">EduAi Reports</span>
+          <div className="flex items-center">
+            <img src={logoFull} alt="EduAi Reports" className="h-9 w-auto" />
           </div>
 
           <div className="hidden md:flex items-center gap-10">
@@ -331,11 +330,8 @@ export function LandingPage({ onGetStarted }) {
       {/* ── Footer ── */}
       <footer className="bg-black border-t border-neutral-900 px-6 py-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="bg-white text-black p-1.5 rounded-lg">
-              <FileText className="w-3.5 h-3.5" />
-            </div>
-            <span className="text-sm font-bold text-white">EduAi Reports</span>
+          <div className="flex items-center">
+            <img src={logoFull} alt="EduAi Reports" className="h-8 w-auto brightness-0 invert" />
           </div>
           <p className="text-xs text-neutral-600">© 2026 EduAi Reports Inc. All rights reserved.</p>
           <div className="flex gap-6">
